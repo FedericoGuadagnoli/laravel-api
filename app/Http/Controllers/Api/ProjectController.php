@@ -36,6 +36,7 @@ class ProjectController extends Controller
     public function show(string $id)
     {
         $project = Project::findOrFail($id);
+        if ($project->image) $project->image = url('storage/' . $project->image);
         return response()->json($project);
     }
 
