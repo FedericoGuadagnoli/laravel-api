@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Type;
 use App\Models\Project;
 use Illuminate\Http\Request;
 
@@ -54,5 +55,19 @@ class ProjectController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    public function CategoryProjects(string $id)
+    {
+        $category = Type::find($id);
+        if (!$category) return response(null, 404);
+
+        $projects = $category->projects;
+        foreach ($projects as $project) {
+            if ($project->image) $project->image = url('storage/' . $project->image);
+        }
+
+        return response()->json($projects);
     }
 }
