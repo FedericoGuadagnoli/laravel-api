@@ -28,6 +28,7 @@ class ProjectPubblicationMail extends Mailable
     {
         return new Envelope(
             subject: 'Project Pubblication Mail',
+            replyTo: 'guadagnoli1989@gmail.com'
         );
     }
 
@@ -37,7 +38,7 @@ class ProjectPubblicationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'mails.projects.published',
         );
     }
 
