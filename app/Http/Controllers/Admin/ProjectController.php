@@ -11,6 +11,9 @@ use App\Models\Type;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
+use App\Mail\ProjectPubblicationMail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class ProjectController extends Controller
 {
@@ -71,6 +74,11 @@ class ProjectController extends Controller
 
         $project->fill($data);
         $project->save();
+        if ($project) {
+            $email = new ProjectPubblicationMail();
+            $user_email = Auth::user()->email;
+            Mail::to($user_email)->send($email);
+        }
         if (Arr::exists($data, 'techs')) $project->technologies()->attach($data['techs']);
         return to_route('admin.projects.show', $project->id);
     }
